@@ -14,34 +14,21 @@ public class Verifier
     final Context context = new Context();
     context.setup();
 
-    long before, after;
-
-    before = System.nanoTime();
     benchmark.groupByVector(context, new Blackhole(str));
-    after = System.nanoTime();
-    System.out.println("groupByVector!\t" + (after - before) + " ns");
     final ByteBuffer vectorResults = context.resultBuffer.duplicate();
 
     context.resetResults();
-
-    before = System.nanoTime();
     benchmark.groupByJniVector(context, new Blackhole(str));
-    after = System.nanoTime();
-    System.out.println("groupByJniVector!\t\t" + (after - before) + " ns");
-
-    before = System.nanoTime();
-    benchmark.groupByScala(context, new Blackhole(str));
-    after = System.nanoTime();
-    System.out.println("groupByScala!\t\t" + (after - before) + " ns");
-    final ByteBuffer scalaResults = context.resultBuffer.duplicate();
+    final ByteBuffer jniVectorResults = context.resultBuffer.duplicate();
 
     context.resetResults();
+    benchmark.groupByScala(context, new Blackhole(str));
 
-    for (int i = 0; i < scalaResults.capacity(); i++) {
-      if (scalaResults.get(i) != vectorResults.get(i)) {
+    for (int i = 0; i < vectorResults.capacity(); i++) {
+      if (vectorResults.get(i) != jniVectorResults.get(i)) {
         throw new RuntimeException("Different results");
       }
-      if (scalaResults.get(i) != context.resultBuffer.get(i)) {
+      if (vectorResults.get(i) != context.resultBuffer.get(i)) {
         throw new RuntimeException("Different results");
       }
     }

@@ -1,6 +1,8 @@
 package jihoon.son;
 
+import java.nio.ByteBuffer;
+
 public class JniHelper
 {
-  public static native void vectorAggregate(int[] keys, int[] vals, int[] results, int i);
+  public static native void vectorAggregate(ByteBuffer keyBuffer, ByteBuffer valBuffer, ByteBuffer resultBuffer, int i);
 }

@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     jihoon_son_JniHelper
  * Method:    vectorAggregate
- * Signature: ([I[I[II)V
+ * Signature: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;I)V
  */
 JNIEXPORT void JNICALL Java_jihoon_son_JniHelper_vectorAggregate
-  (JNIEnv *, jclass, jintArray, jintArray, jintArray, jint);
+  (JNIEnv *, jclass, jobject, jobject, jobject, jint);
 
 #ifdef __cplusplus
 }
